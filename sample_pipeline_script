@@ -1,0 +1,22 @@
+pipeline {
+    agent { label "slave_ProjectA" }
+    stages {
+        stage('Build') {
+            steps {
+                // Get some code from a GitHub repository
+                git 'https://github.com/VinCloud1/pet-shop-website-template.git'
+
+                // Run Maven on a Unix agent.
+                sh "sudo su"
+                sh "yum install docker -y"
+                sh "systemctl start docker"
+                sh "systemctl enable docker"
+                sh "docker build -t petshop2 ."
+
+                // To run Maven on a Windows agent, use
+                // bat "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+
+        }
+    }
+}
